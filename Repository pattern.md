@@ -9,4 +9,6 @@ Elke implementatie van de verschillende data stores wordt geschreven in een ande
 Doordat de implementatie van verschillende data stores op dezelfde object-geörienteerde manier werkt, kun je erg makkelijk wisselen tussen de verschillende implementaties, zonder dat je de code die het gebruikt hoeft aan te passen. Daarnaast kan je erg makkelijk wisselen van een data store, bijvoorbeeld van een database naar REST API. Dit vergroot ook erg de testbaarheid van de applicatie.
 
 _Anderzijds zijn programmeurs over het algemeen minder gesteld op het RP. Het enitity framework is namelijk al een extra laag aan abstractie en door het RP zorg je er voor dat niet alle object-relational mapping (ORM) opties werken._<br />
-Anti-pattern
+Anti-pattern omdat het niet dynamisch genoeg is.
+
+![Repository pattern C#](./Repository pattern Csharp structure.png)
