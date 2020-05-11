@@ -11,4 +11,4 @@ Doordat de implementatie van verschillende data stores op dezelfde object-geöri
 _Anderzijds zijn programmeurs over het algemeen minder gesteld op het RP. Het enitity framework is namelijk al een extra laag aan abstractie en door het RP zorg je er voor dat niet alle object-relational mapping (ORM) opties werken._<br />
 Anti-pattern omdat het niet dynamisch genoeg is.
 
-![Repository pattern C#](./Repository pattern Csharp structure.png)
+![Repository pattern C#](https://raw.githubusercontent.com/CoffeeCreamer435/Workshop-Wapp-repository-pattern-Entity-framework-c-/repository-pattern/Repository%20pattern%20Csharp%20structure.png?token=AIDDAFOWSN75QSQISRSMULC6XGH6S)
