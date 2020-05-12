@@ -1,4 +1,5 @@
 ﻿using ContosoUniversity.Data;
+using ContosoUniversity.Data.Repositories;
 using ContosoUniversity.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +11,11 @@ namespace ContosoUniversity.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly SchoolContext _context;
+        private IStudentsRepository _studentsRepository;
 
         public StudentsController(SchoolContext context)
         {
-            _context = context;
+            this._studentsRepository = new StudentsRepository(context);
         }
 
         // GET: Students
@@ -41,7 +42,7 @@ namespace ContosoUniversity.Controllers
 
             ViewData["CurrentFilter"] = searchString;
 
-            var students = from s in _context.Students
+            var students = from s in _studentsRepository.GetStudents()
                            select s;
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -76,12 +77,7 @@ namespace ContosoUniversity.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
-                // Read related data in enrollments and course
-                .Include(s => s.Enrollments)
-                .ThenInclude(e => e.Course)
-                //.AsNoTracking()
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var student = _studentsRepository.GetStudentByID((int) id);
             if (student == null)
             {
                 return NotFound();
@@ -103,21 +99,12 @@ namespace ContosoUniversity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EnrollmentDate,FirstMidName,LastName")] Student student)
         {
-            try
-            {
-                if (ModelState.IsValid)
+            if (ModelState.IsValid)
                 {
-                    _context.Add(student);
-                    await _context.SaveChangesAsync();
+                    _studentsRepository.InsertStudent(student);
+                    _studentsRepository.Save();
                     return RedirectToAction(nameof(Index));
                 }
-            }
-            catch (DbUpdateException)
-            {
-                ModelState.AddModelError("", "Unable to save changes. " +
-                    "Try again, and if the problem persists " +
-                    "see your system administrator.");
-            }
             return View(student);
         }
 
@@ -129,7 +116,7 @@ namespace ContosoUniversity.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
+            var student = _studentsRepository.GetStudentByID((int) id);
             if (student == null)
             {
                 return NotFound();
@@ -147,7 +134,7 @@ namespace ContosoUniversity.Controllers
             {
                 return NotFound();
             }
-            var studentToUpdate = await _context.Students.FirstOrDefaultAsync(s => s.ID == id);
+            var studentToUpdate = _studentsRepository.GetStudentByID((int) id);
             if (await TryUpdateModelAsync<Student>(
                 studentToUpdate,
                 "",
@@ -155,7 +142,7 @@ namespace ContosoUniversity.Controllers
             {
                 try
                 {
-                    await _context.SaveChangesAsync();
+                    _studentsRepository.Save();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException /* ex */)
@@ -177,9 +164,7 @@ namespace ContosoUniversity.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var student = _studentsRepository.GetStudentByID((int) id);
             if (student == null)
             {
                 return NotFound();
@@ -199,7 +184,7 @@ namespace ContosoUniversity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Students.FindAsync(id);
+            var student = _studentsRepository.GetStudentByID(id);
             if (student == null)
             {
                 return RedirectToAction(nameof(Index));
@@ -207,8 +192,8 @@ namespace ContosoUniversity.Controllers
 
             try
             {
-                _context.Students.Remove(student);
-                await _context.SaveChangesAsync();
+                _studentsRepository.DeleteStudent(id);
+                _studentsRepository.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateException /* ex */)
@@ -220,7 +205,7 @@ namespace ContosoUniversity.Controllers
 
         private bool StudentExists(int id)
         {
-            return _context.Students.Any(e => e.ID == id);
+            return _studentsRepository.GetStudentByID(id) != default;
         }
     }
 }

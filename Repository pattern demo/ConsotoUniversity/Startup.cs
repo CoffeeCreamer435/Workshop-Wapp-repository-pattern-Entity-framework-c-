@@ -31,9 +31,6 @@ namespace ContosoUniversity
             services.AddDbContext<SchoolContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //Add Miniprofiler service here
-            var miniProfilerConnectionString = Configuration.GetConnectionString("MiniProfilerDatabase");
-
             services.AddMvc()
                 .AddNewtonsoftJson();
         }
