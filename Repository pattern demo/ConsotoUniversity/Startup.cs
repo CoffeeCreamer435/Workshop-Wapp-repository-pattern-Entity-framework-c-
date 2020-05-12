@@ -1,4 +1,5 @@
 using ContosoUniversity.Data;
+using ContosoUniversity.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,9 +31,12 @@ namespace ContosoUniversity
 
             services.AddDbContext<SchoolContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+           
             services.AddMvc()
                 .AddNewtonsoftJson();
+
+            services.AddScoped<IStudentsRepository, StudentsRepository>(); // Scoped is hetzelfde binnen een request, maar is verschillend per verschillend request
+            // services.AddSingleton<IStudentsRepository, MockedStudentsRepository>(); // Singleton is hetzelfde voor elk object en elk request
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

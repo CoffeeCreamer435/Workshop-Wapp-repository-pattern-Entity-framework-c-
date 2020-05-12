@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ContosoUniversity.Data.Repositories
 {
-    interface IStudentsRepository : IDisposable
+    public interface IStudentsRepository
     {
 
         IQueryable<Student> GetStudents();

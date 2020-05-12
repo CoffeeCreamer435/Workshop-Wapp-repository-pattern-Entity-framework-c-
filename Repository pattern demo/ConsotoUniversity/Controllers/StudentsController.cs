@@ -11,11 +11,11 @@ namespace ContosoUniversity.Controllers
 {
     public class StudentsController : Controller
     {
-        private IStudentsRepository _studentsRepository;
+        private readonly IStudentsRepository _studentsRepository;
 
-        public StudentsController(SchoolContext context)
+        public StudentsController(IStudentsRepository studentsRepository)
         {
-            this._studentsRepository = new StudentsRepository(context);
+            this._studentsRepository = studentsRepository;
         }
 
         // GET: Students
@@ -66,7 +66,7 @@ namespace ContosoUniversity.Controllers
             }
 
             int pageSize = 3;
-            return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize));
+            return View((new PaginatedList<Student>(students.AsNoTracking(), pageNumber ?? 1, pageSize)));
         }
 
         // GET: Students/Details/5
