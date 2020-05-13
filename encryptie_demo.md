@@ -1,16 +1,4 @@
-`using System;
-
-// Laad encryptie libs
-using System.Security.Cryptography;
-using System.Text;
-using BCrypt;
-
-namespace Encryptie_methode_ASP_Core
-{
-    class Program
-    {
-
-        static void Main(string[] args)
+`        static void Main(string[] args)
         {
             String password = "wachtwoord123";
             String salt = BCrypt.Net.BCrypt.GenerateSalt(10);
@@ -67,6 +55,4 @@ namespace Encryptie_methode_ASP_Core
                 result.Append(hash[i].ToString("X2"));
             }
             return result.ToString();
-        }
-    }
-}`
+        }`
