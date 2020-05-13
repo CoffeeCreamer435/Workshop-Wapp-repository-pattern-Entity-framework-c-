@@ -3,15 +3,18 @@ using System.Collections.Generic;
 
 namespace InsideAirbnbCasus.Models
 {
-    public partial class Listings
+    public partial class Listings // Dependent entity
     {
         public Listings()
         {
             Reviews = new HashSet<Reviews>();
         }
 
-        public int Id { get; set; }
-        public string ListingUrl { get; set; }
+        public int Id { get; set; } // Primary key
+        public virtual ICollection<Reviews> Reviews { get; set; } // Collection navigation property
+        public string ListingUrl { get; set; } // Scalar property
+
+        #region overige properties
         public double ScrapeId { get; set; }
         public DateTime LastScraped { get; set; }
         public string Name { get; set; }
@@ -106,7 +109,6 @@ namespace InsideAirbnbCasus.Models
         public string RequireGuestPhoneVerification { get; set; }
         public int CalculatedHostListingsCount { get; set; }
         public double? ReviewsPerMonth { get; set; }
-
-        public virtual ICollection<Reviews> Reviews { get; set; }
+        #endregion
     }
 }

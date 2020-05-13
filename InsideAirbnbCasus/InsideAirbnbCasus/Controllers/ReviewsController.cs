@@ -115,6 +115,12 @@ namespace InsideAirbnbCasus.Controllers
             return View("Join", result.ToList());
         }
 
+        public async Task<IActionResult> Raw()
+        {
+            var result = _context.Reviews.FromSqlRaw("SELECT TOP 10 * FROM Reviews Where ID != 1");
+            return View("Index", await result.ToListAsync());
+        }
+
 
         // //////////////////////////////////////////////////////////////////
         public async Task<IActionResult> Details(int? id)

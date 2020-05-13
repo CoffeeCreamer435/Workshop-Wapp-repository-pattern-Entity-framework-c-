@@ -10,6 +10,8 @@ namespace InsideAirbnbCasus.Models
         {
         }
 
+
+
         //Constructor which allows configuration to be passed into the context by DI
         public AIRBNBContext(DbContextOptions<AIRBNBContext> options) : base(options)
         {
@@ -24,6 +26,7 @@ namespace InsideAirbnbCasus.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Fluent API
             modelBuilder.Entity<Calendar>(entity =>
             {
                 entity.HasNoKey();

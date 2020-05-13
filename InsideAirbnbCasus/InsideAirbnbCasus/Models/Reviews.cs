@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InsideAirbnbCasus.Models
 {
-    public partial class Reviews
+    public partial class Reviews // Principal entity
     {
         public Reviews()
         {
@@ -19,13 +19,16 @@ namespace InsideAirbnbCasus.Models
             Comments = comments;
         }
 
-        public int Id { get; set; }
-        public int ListingId { get; set; }
+        public int Id { get; set; } // Primary key
+        public virtual Listings Listing { get; set; } // Reference navigation
+        public int ListingId { get; set; } // Foreign key
+        public string Comments { get; set; } // Scalar property
+
+        #region overige properties
         public DateTime Date { get; set; }
         public int ReviewerId { get; set; }
         public string ReviewerName { get; set; }
-        public string Comments { get; set; }
+        #endregion
 
-        public virtual Listings Listing { get; set; }
     }
 }
