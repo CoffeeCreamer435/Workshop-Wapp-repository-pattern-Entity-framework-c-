@@ -10,7 +10,7 @@ Een querie optimaliseren is niet alleen code aanpassen maar ook weten hoe de arc
 Bij defferd calls moet jij je even voorstellen dat er een qurie geschreven moet worden vanuit een tabel die meer dan 100.000 record bevat. Het ophalen van 100.000 records duurt lang en is niet efficent zoals te zien is in code voorbeeld 1.
 
 ```C#
-var airBNBContext = await _context.Reviews.Include(r => r.Listing).ToList().FirstOrDefault();
+var airBNBContext = _context.Reviews.Include(r => r.Listing).ToList().FirstOrDefault();
 ```
 
 Deze code doet eerst alle 100.000 records ophalen en vervolgens pakt hij de eerste uit deze lijst. Dit betekent dus dat de database lang bezig is en de server veel recourses nodig heeft. Door de qurie te optimaliseren hoeft de database nog maar 1 record op te halen en de applicatie hoeft er nog maar 1 te verwerken.
@@ -86,7 +86,7 @@ Deze qurie heeft de volgende DTO nodig
 Door de code op de volgende manier aan te passen wordt hij sneller.
 
 ```c#
- var airBNBContext = await  _context.Reviews.Select(r => new ReviewsTest()
+ var airBNBContext =  _context.Reviews.Select(r => new ReviewsTest()
             {
                 ListingId = r.ListingId,
                 Id = r.Id,
@@ -140,7 +140,7 @@ Het aanpassen van SQl query levert niet altijd een tijdwinst op vooral als jouw 
 Een veel gebruikte methode hiervoor is Async await. In de twee code voorbeelden hieronder staat in de eerste een functie die niet async is en in de tweede een functie die async is.
 
 ```csharp
-var airBNBContext1 = await _context.Reviews.Include(r => r.Listing).Take(500).ToList();
+var airBNBContext1 =  _context.Reviews.Include(r => r.Listing).Take(500).ToList();
 ```
 
 ```csharp
@@ -180,7 +180,7 @@ Bij voorbeeld 1 doet de query er `9072` ms over en bij het tweede voorbeeld `765
 De laatste en een van de eenvoudigste manieren om jouw get querie te versnellen is `AsNoTracking()` functie. Deze functie zorgt er voor dat LINQ weet dat jouw query alleen een get query is. Deze functie zorgt er voor dat LINQ niet bijhoudt welke wijzingen er zijn. In het code voorbeeld hieronder staat een toegepast voorbeeld.
 
 ```csharp
-var airBNBContext = await _context.Reviews.Include(r => r.Listing).Take(500).AsNoTracking();
+var airBNBContext = _context.Reviews.Include(r => r.Listing).Take(500).AsNoTracking();
 ```
 
 Bron: https://www.danylkoweb.com/Blog/5-entity-framework-performance-tips-KX
