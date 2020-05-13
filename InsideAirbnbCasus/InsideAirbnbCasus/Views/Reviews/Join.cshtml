@@ -1,0 +1,46 @@
+﻿@model IEnumerable<InsideAirbnbCasus.Models.TimeLine>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Reviews</h1>
+
+<ul>
+    <li>@Html.ActionLink("SingleProperty", "SingleProperty", "Reviews")</li>
+    <li>@Html.ActionLink("SingleRelatedProperty", "SingleRelatedProperty", "Reviews")</li>
+    <li>@Html.ActionLink("TransformData", "TransformData", "Reviews")</li>
+    <li>@Html.ActionLink("FilteringName", "FilteringName", "Reviews", new { name = "aaron" })</li>
+    <li>@Html.ActionLink("OrderName", "OrderName", "Reviews")</li>
+    <li>@Html.ActionLink("GroupName", "GroupName", "Reviews")</li>
+    <li>@Html.ActionLink("Join", "Join", "Reviews")</li>
+</ul>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.neighbourhood)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.date)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.neighbourhood)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

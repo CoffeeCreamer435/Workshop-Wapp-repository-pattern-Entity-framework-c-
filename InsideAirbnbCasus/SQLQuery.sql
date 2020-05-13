@@ -1,0 +1,1 @@
+﻿select top 100 * from Reviews order by reviewer_name asc
